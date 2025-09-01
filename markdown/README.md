@@ -5867,3 +5867,243 @@ This API retrieves a list of scheduled transactions for an agent.
   - **Query Params:**
     - initiator_id (string, required): Your registered mobile number (See Platform Credentials for UAT).
     - user_code (string, required): Unique code of your registered agent/retailer.
+
+---
+
+# Aeps (Aadhaar Enabled Payment System) - FINGPAY
+
+## 1. AEPS eKYC APIs
+
+### 1.1 EKYC OTP Request
+
+Use this API to request an OTP for AEPS eKYC using Fingpay.
+
+#### Details
+- **Method:** PUT
+- **URL Endpoint:** /user/collection/aeps-fingpay/kyc/otp
+- **Request Structure:**
+  - **Body Parameters:**
+    - **initiator_id** (string / required) - Registered mobile number of the agent.
+    - **user_code** (string / required) - User code of the agent.
+    - **aadhar** (string / required) - Aadhaar number (encrypted).
+    - **customer_id** (string / required) - Customer's mobile number.
+    - **latlong** (string / required) - User's geolocation coordinates in "latitude,longitude" format (Example: 26.8863786,75.7393589).
+
+
+#### Sample Response
+```json
+{
+  "response_status_id": 0,
+  "data": {
+    "user_code": "20810200",
+    "reference_tid": "EKYKF4719702240123152147525I",
+    "otp_ref_id": "2465238"
+  },
+  "response_type_id": 1600,
+  "message": "OTP request has been sent",
+  "status": 0
+}
+```
+
+
+### 1.2 EKYC OTP Verify
+
+Use this API to verify the OTP sent for AEPS eKYC on merchant's aadhaar associated cell number.
+
+#### Details
+- **Method:** POST
+- **URL Endpoint:** /user/collection/aeps-fingpay/kyc/otp/verify
+- **Request Structure:**
+  - **Body Parameters:**
+    - **initiator_id** (string / required) - Registered mobile number of the agent.
+    - **user_code** (string / required) - User code of the agent.
+    - **aadhar** (string / required) - Aadhaar number (encrypted).
+    - **customer_id** (string / required) - Customer's mobile number.
+    - **latlong** (string / required) - User's geolocation coordinates in "latitude,longitude" format.
+    - **otp** (string / required) - OTP received on the Aadhaar-registered mobile.
+    - **otp_ref_id** (string / required) - OTP reference ID received in the OTP request API.
+    - **reference_tid** (string / required) - Reference transaction ID received in the OTP request API.
+
+
+#### Sample Response
+```json
+{
+  "response_status_id": 0,
+  "data": {
+    "user_code": "20810200",
+    "reference_tid": "EKYKF4719702240123152147525I",
+    "otp_ref_id": "2465238"
+  },
+  "response_type_id": 1604,
+  "message": "Validation successful",
+  "status": 0
+}
+```
+
+
+### 1.3 EKYC Biometric
+
+Use this API to perform biometric eKYC for merchant.
+
+#### Details
+- **Method:** POST
+- **URL Endpoint:** /user/collection/aeps-fingpay/kyc/biometric
+- **Request Structure:**
+  - **Body Parameters:**
+    - **initiator_id** (string / required) - Registered mobile number of the agent.
+    - **user_code** (string / required) - User code of the agent.
+    - **aadhar** (string / required) - Aadhaar number (encrypted).
+    - **customer_id** (string / required) - Customer's mobile number.
+    - **latlong** (string / required) - User's geolocation coordinates in "latitude,longitude" format.
+    - **otp_ref_id** (string / required) - OTP reference ID received in the OTP verify API.
+    - **reference_tid** (string / required) - Reference transaction ID.
+    - **bank_code** (string / required) - Bank code (e.g., HDFC).
+    - **client_ref_id** (string / required) - Unique client reference ID.
+    - **piddata** (string / required) - PID data returned by the biometric device in XML format.
+
+
+#### Sample Response
+```json
+{
+  "response_status_id": 0,
+  "data": {
+    "user_code": "20810200"
+  },
+  "response_type_id": 1605,
+  "message": "Congratulations! eKYC successful",
+  "status": 0
+}
+```
+
+
+### 1.4 Daily KYC
+
+Use this API to perform daily biometric KYC for merchant.
+
+#### Details
+- **Method:** POST
+- **URL Endpoint:** /user/collection/aeps-fingpay/kyc/biometric/daily
+- **Request Structure:**
+  - **Body Parameters:**
+    - **initiator_id** (string / required) - Registered mobile number of the agent.
+    - **user_code** (string / required) - User code of the agent.
+    - **aadhar** (string / required) - Aadhaar number (encrypted).
+    - **customer_id** (string / required) - Customer's mobile number.
+    - **latlong** (string / required) - User's geolocation coordinates in "latitude,longitude" format.
+    - **bank_code** (string / required) - Bank code (e.g., HDFC).
+    - **piddata** (string / required) - PID data returned by the biometric device in XML format.
+    - **client_ref_id** (string / required) - Unique client reference ID.
+
+
+#### Sample Response
+```json
+{
+  "response_status_id": 0,
+  "data": {
+    "user_code": "20810200"
+  },
+  "response_type_id": 1605,
+  "message": "Congratulations! DailyKYC successful",
+  "status": 0
+}
+```
+
+---
+
+## 2. AEPS Transaction APIs - Fingpay
+
+### 2.1 AEPS Cash Withdrawal
+
+Use this API to perform a cash withdrawal transaction via AEPS using Fingpay.
+
+#### Details
+- **Method:** POST
+- **URL Endpoint:** /customer/collection/aeps-fingpay/cash-withdrawl/{customer_id}
+- **Path Parameters:**
+  - **customer_id** (string / required) - Customer's mobile number.
+- **Body Parameters:**
+  - **initiator_id** (string / required) - Registered mobile number of the agent.
+  - **user_code** (string / required) - User code of the agent.
+  - **amount** (string / required) - Amount to withdraw.
+  - **source_ip** (string / required) - IP address of the agent/retailer making the request.
+  - **aadhar** (string / required) - Aadhaar number (encrypted).
+  - **latlong** (string / required) - User's geolocation coordinates in "latitude,longitude" format.
+  - **bank_code** (string / required) - Bank code (e.g., HDFC).
+  - **piddata** (string / required) - PID data returned by the biometric device in XML format.
+  - **client_ref_id** (string / required) - Unique client reference ID.
+
+
+#### Sample Response
+```json
+{
+  "response_status_id": 2,
+  "data": {
+    "tx_status": "1",
+    "transaction_date": "07-07-21 13:29:35",
+    "reason": "Transaction Success",
+    "amount": "100",
+    "merchant_code": "",
+    "shop": "Nirmal Maheshwari",
+    "fee": "",
+    "sender_name": "John Cena",
+    "tid": "2157059989",
+    "auth_code": "00",
+    "shop_address_line1": "Eko India, Haryana, Gurgaonr,-122001",
+    "user_code": "20810200",
+    "service_tax": "0.0",
+    "totalfee": "0.0",
+    "merchantname": "Customer Name",
+    "stan": "443434",
+    "aadhar": "XXXX XXXX 9999",
+    "customer_balance": "",
+    "transaction_time": "07-07-21 13:29:35",
+    "comment": "Transaction Success",
+    "bank_ref_num": "RRN1989123435555",
+    "terminal_id": ""
+  },
+  "response_type_id": 1465,
+  "message": "Transaction Success",
+  "status": 0
+}
+```
+
+### 2.2 AEPS Balance Enquiry
+
+Use this API to check the balance of a customer's Aadhaar-linked bank account.
+
+#### Details
+- **Method:** POST
+- **URL Endpoint:** /customer/collection/{customer_id}/aeps-fingpay/balance-enquiry
+- **Path Parameters:**
+  - **customer_id** (string / required) - Customer's mobile number.
+- **Body Parameters:**
+  - **initiator_id** (string / required) - Registered mobile number of the agent.
+  - **user_code** (string / required) - User code of the agent.
+  - **source_ip** (string / required) - IP address of the agent/retailer making the request.
+  - **aadhar** (string / required) - Aadhaar number (encrypted).
+  - **latlong** (string / required) - User's geolocation coordinates in "latitude,longitude" format.
+  - **bank_code** (string / required) - Bank code (e.g., HDFC).
+  - **piddata** (string / required) - PID data returned by the biometric device in XML format.
+  - **client_ref_id** (string / required) - Unique client reference ID.
+
+
+### 2.3 AEPS Mini Statement
+
+Use this API to fetch the mini statement of a customer's Aadhaar-linked bank account via AEPS using Fingpay.
+
+#### Details
+- **Method:** POST
+- **URL Endpoint:** /customer/collection/aeps-fingpay/mini-statement/{customer_id}
+- **Path Parameters:**
+  - **customer_id** (string / required) - Customer's mobile number.
+- **Body Parameters:**
+  - **initiator_id** (string / required) - Registered mobile number of the agent.
+  - **user_code** (string / required) - User code of the agent.
+  - **source_ip** (string / required) - IP address of the agent/retailer making the request.
+  - **aadhar** (string / required) - Aadhaar number (encrypted).
+  - **latlong** (string / required) - User's geolocation coordinates in "latitude,longitude" format.
+  - **bank_code** (string / required) - Bank code (e.g., HDFC).
+  - **piddata** (string / required) - PID data returned by the biometric device in XML format.
+  - **client_ref_id** (string / required) - Unique client reference ID.
+
+
