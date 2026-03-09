@@ -5870,7 +5870,9 @@ This API retrieves a list of scheduled transactions for an agent.
 
 # KYC & Verification APIs - TOURAS
 
-### 1. PAN Verification API
+## 1. PAN APIs
+
+### 1.1. PAN Verification API
 Verify PAN details including holder name and status.
 
 #### Details
@@ -5897,7 +5899,7 @@ Verify PAN details including holder name and status.
     "status": 0
 }
 ```
-### 2. PAN Comprehensive API
+### 1.2. PAN Comprehensive API
 Perform comprehensive PAN verification with detailed insights.
 
 #### Details
