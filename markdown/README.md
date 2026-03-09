@@ -5536,7 +5536,6 @@ The response will contain the following information in the `data` object:
   "status": "success"
 }
 ```
-
 ---
 
 # Marketing & Communication APIs
