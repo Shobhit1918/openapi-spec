@@ -6273,7 +6273,7 @@ Verify driving license status and holder information.
     - initiator_id (string / required) - Your registered mobile number.
     - user_code (string / required) - User code value of the retailer from whom the request is coming.
     - dl_number (string / required) - The Driving License number.
-    - dob (string / required) - Date of birth of the DL holder.
+    - dob (string / required) - Date of birth of the DL holder (format YYYY-MM-DD).
 
 #### Sample Response (200 OK)
 ```json
